@@ -1,4 +1,4 @@
-package org.wit.placemark
+package org.wit.placemark.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
+import org.wit.placemark.R
 
 class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 

@@ -13,7 +13,7 @@ import org.wit.placemark.models.PlacemarkModel
 class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   var placemark = PlacemarkModel()
-  var app : MainApp? = null
+  lateinit var app : MainApp
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -24,9 +24,9 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       placemark.title = placemarkTitle.text.toString()
       placemark.description = description.text.toString()
       if (placemark.title.isNotEmpty()) {
-        app!!.placemarks.add(placemark.copy())
+        app.placemarks.add(placemark.copy())
         info("add Button Pressed: $placemarkTitle")
-        app!!.placemarks.forEach { info("add Button Pressed: ${it}")}
+        app.placemarks.forEach { info("add Button Pressed: ${it}")}
       }
       else {
         toast ("Please Enter a title")

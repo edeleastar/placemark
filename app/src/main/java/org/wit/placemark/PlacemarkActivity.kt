@@ -15,7 +15,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
     btnAdd.setOnClickListener() {
       val placemarkTitle = placemarkTitle.text.toString()
-      if (placemarkTitle != "") {
+      if (placemarkTitle.isNotEmpty()) {
         info("add Button Pressed: $placemarkTitle")
       }
       else {

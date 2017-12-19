@@ -27,5 +27,19 @@
           app:titleTextColor="@color/colorPrimary"/>
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBarLayout"
+        android:fillViewport="true">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+      </LinearLayout>
+    </ScrollView>
+
   </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

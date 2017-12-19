@@ -22,6 +22,8 @@ class PlacemarkListActivity : AppCompatActivity() {
     setContentView(R.layout.activity_placemark_list)
     app = application as MainApp
 
+    toolbarMain.title = title
+
     val layoutManager = LinearLayoutManager(this)
     recyclerView.layoutManager = layoutManager
     recyclerView.adapter = PlacemarkAdapter(app.placemarks)

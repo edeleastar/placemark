@@ -21,7 +21,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     btnAdd.setOnClickListener() {
       placemark.title = placemarkTitle.text.toString()
       if (placemark.title.isNotEmpty()) {
-        placemarks.add(placemark)
+        placemarks.add(placemark.copy())
         info("add Button Pressed: $placemarkTitle")
         placemarks.forEach { info("add Button Pressed: ${it.title}")}
       }

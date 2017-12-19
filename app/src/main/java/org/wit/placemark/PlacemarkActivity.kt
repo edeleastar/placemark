@@ -13,7 +13,8 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     setContentView(R.layout.activity_placemark)
 
     btnAdd.setOnClickListener() {
-      info("add Button Pressed")
+      val placemarkTitle = placemarkTitle.text
+      info("add Button Pressed: $placemarkTitle")
     }
   }
 }

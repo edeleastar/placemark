@@ -12,8 +12,5 @@ class MainApp : Application(), AnkoLogger {
   override fun onCreate() {
     super.onCreate()
     info("Placemark started")
-    placemarks.add(PlacemarkModel("One", "About one..."))
-    placemarks.add(PlacemarkModel("Two", "About two..."))
-    placemarks.add(PlacemarkModel("Three", "About three..."))
   }
 }

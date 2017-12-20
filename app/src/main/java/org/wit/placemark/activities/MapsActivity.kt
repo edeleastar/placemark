@@ -53,4 +53,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
     location.lng = marker.position.longitude
     location.zoom = map.cameraPosition.zoom
   }
+
+  override fun onBackPressed() {
+    val resultIntent = Intent()
+    resultIntent.putExtra("location", location)
+    setResult(Activity.RESULT_OK, resultIntent)
+    finish()
+    super.onBackPressed()
+  }
 }

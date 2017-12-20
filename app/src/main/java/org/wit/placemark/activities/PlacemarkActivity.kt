@@ -28,7 +28,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     setSupportActionBar(toolbarAdd)
 
     if (intent.hasExtra("placemark_edit")) {
-      btnAdd.setText("Save Placemark")
+      btnAdd.setText(R.string.save_placemark)
       placemark = intent.extras.getParcelable<PlacemarkModel>("placemark_edit")
       placemarkTitle.setText(placemark.title)
       description.setText(placemark.description)
@@ -43,7 +43,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
         finish()
       }
       else {
-        toast("Please Enter a title")
+        toast(R.string.enter_placemark_title)
       }
     }
   }

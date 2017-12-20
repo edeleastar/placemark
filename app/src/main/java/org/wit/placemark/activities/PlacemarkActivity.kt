@@ -2,6 +2,7 @@ package org.wit.placemark.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_placemark.*
@@ -31,8 +32,6 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       placemark.description = description.text.toString()
       if (placemark.title.isNotEmpty()) {
         app.placemarks.create(placemark.copy())
-        info("add Button Pressed: $placemarkTitle")
-        app.placemarks.findAll().forEach{ info("add Button Pressed: ${it}") }
         setResult(AppCompatActivity.RESULT_OK)
         finish()
       }

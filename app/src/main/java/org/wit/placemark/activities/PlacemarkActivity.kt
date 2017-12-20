@@ -28,6 +28,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     setSupportActionBar(toolbarAdd)
 
     if (intent.hasExtra("placemark_edit")) {
+      btnAdd.setText("Save Placemark")
       placemark = intent.extras.getParcelable<PlacemarkModel>("placemark_edit")
       placemarkTitle.setText(placemark.title)
       description.setText(placemark.description)

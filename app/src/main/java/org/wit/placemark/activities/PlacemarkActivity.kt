@@ -69,6 +69,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     }
 
     placemarkLocation.setOnClickListener {
+      startActivity (intentFor<MapsActivity>())
     }
   }
 

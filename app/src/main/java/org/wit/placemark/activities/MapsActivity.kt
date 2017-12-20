@@ -10,14 +10,17 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.placemark.R
+import org.wit.placemark.models.Location
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
   private lateinit var mMap: GoogleMap
+  var location = Location()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_maps)
+    location = intent.extras.getParcelable<Location>("location")
     val mapFragment = supportFragmentManager
         .findFragmentById(R.id.map) as SupportMapFragment
     mapFragment.getMapAsync(this)
@@ -25,8 +28,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
   override fun onMapReady(googleMap: GoogleMap) {
     mMap = googleMap
-    val wit = LatLng(52.245696, -7.139102)
-    mMap.addMarker(MarkerOptions().position(wit).title("Marker in Sydney"))
-    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wit, 16f))
+    val loc = LatLng(location.lat, location.lng)
+    mMap.addMarker(MarkerOptions().position(loc).title("Default Marker"))
+    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
   }
 }

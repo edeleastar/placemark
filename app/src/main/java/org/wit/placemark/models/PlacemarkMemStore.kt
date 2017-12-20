@@ -3,6 +3,12 @@ package org.wit.placemark.models
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
+var lastId = 0L
+
+internal fun getId(): Long {
+  return lastId++
+}
+
 class PlacemarkMemStore : PlacemarkStore, AnkoLogger {
 
   val placemarks = ArrayList<PlacemarkModel>()
@@ -12,6 +18,7 @@ class PlacemarkMemStore : PlacemarkStore, AnkoLogger {
   }
 
   override fun create(placemark: PlacemarkModel) {
+    placemark.id = getId()
     placemarks.add(placemark)
     logAll()
   }

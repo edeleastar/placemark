@@ -13,6 +13,7 @@ import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.wit.placemark.R
 import org.wit.placemark.helpers.readImage
+import org.wit.placemark.helpers.readImageFromPath
 import org.wit.placemark.helpers.showImagePicker
 import org.wit.placemark.main.MainApp
 import org.wit.placemark.models.PlacemarkModel
@@ -38,6 +39,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       placemark = intent.extras.getParcelable<PlacemarkModel>("placemark_edit")
       placemarkTitle.setText(placemark.title)
       description.setText(placemark.description)
+      placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
     }
 
     btnAdd.setOnClickListener() {

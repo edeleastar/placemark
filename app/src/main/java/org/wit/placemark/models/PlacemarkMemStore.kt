@@ -23,7 +23,15 @@ class PlacemarkMemStore : PlacemarkStore, AnkoLogger {
     logAll()
   }
 
+  override fun update(placemark: PlacemarkModel) {
+    var foundPlacemark: PlacemarkModel? = placemarks.find { p -> p.id == placemark.id }
+    if (foundPlacemark != null) {
+      foundPlacemark.title = placemark.title
+      foundPlacemark.description = placemark.description
+    }
+  }
+
   internal fun logAll() {
-   placemarks.forEach{ info("${it}") }
+    placemarks.forEach { info("${it}") }
   }
 }

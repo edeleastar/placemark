@@ -1,5 +1,6 @@
 package org.wit.placemark.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -77,5 +78,16 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       }
     }
     return super.onOptionsItemSelected(item)
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    when (requestCode) {
+      IMAGE_REQUEST -> {
+        if (data != null) {
+          placemark.image = data.getData().toString()
+        }
+      }
+    }
   }
 }

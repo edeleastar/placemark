@@ -42,13 +42,13 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
       if (edit) {
         app.placemarks.update(placemark.copy())
-        setResult(AppCompatActivity.RESULT_OK)
+        setResult(201)
         finish()
       }
       else {
         if (placemark.title.isNotEmpty()) {
           app.placemarks.create(placemark.copy())
-          setResult(AppCompatActivity.RESULT_OK)
+          setResult(200)
           finish()
         }
         else {

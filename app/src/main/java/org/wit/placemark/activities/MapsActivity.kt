@@ -14,7 +14,7 @@ import org.wit.placemark.models.Location
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-  private lateinit var mMap: GoogleMap
+  private lateinit var map: GoogleMap
   var location = Location()
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,14 +27,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   override fun onMapReady(googleMap: GoogleMap) {
-    mMap = googleMap
+    map = googleMap
     val loc = LatLng(location.lat, location.lng)
     val options = MarkerOptions()
         .title("Placemark")
         .snippet("GPS : " + loc.toString())
         .draggable(true)
         .position(loc)
-    mMap.addMarker(options)
-    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
+    map.addMarker(options)
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
   }
 }

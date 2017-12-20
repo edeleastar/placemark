@@ -7,10 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_placemark.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import org.wit.placemark.R
 import org.wit.placemark.helpers.readImage
 import org.wit.placemark.helpers.readImageFromPath
@@ -69,6 +66,9 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
     chooseImage.setOnClickListener {
       showImagePicker(this, IMAGE_REQUEST)
+    }
+
+    placemarkLocation.setOnClickListener {
     }
   }
 

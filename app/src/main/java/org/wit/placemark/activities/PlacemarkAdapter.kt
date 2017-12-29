@@ -11,6 +11,7 @@ import org.wit.placemark.models.PlacemarkModel
 
 interface PlacemarkListener {
   fun onPlacemarkClick(placemark: PlacemarkModel)
+  fun onPlacemarkLongClick(placemark: PlacemarkModel)
 }
 
 class PlacemarkAdapter constructor(private var placemarks: List<PlacemarkModel>,
@@ -34,6 +35,7 @@ class PlacemarkAdapter constructor(private var placemarks: List<PlacemarkModel>,
       itemView.description.text = placemark.description
       itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context, placemark.image))
       itemView.setOnClickListener { listener.onPlacemarkClick(placemark) }
+      itemView.setOnLongClickListener { listener.onPlacemarkLongClick(placemark); true }
     }
   }
 }

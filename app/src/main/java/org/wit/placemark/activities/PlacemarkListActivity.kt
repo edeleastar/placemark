@@ -8,6 +8,8 @@ import android.view.*
 import kotlinx.android.synthetic.main.activity_placemark_list.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.ctx
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
 import org.wit.placemark.R
@@ -64,7 +66,15 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
   }
 
   override fun onPlacemarkLongClick(placemark: PlacemarkModel) {
-    app.placemarks.delete(placemark)
-    loadPlacemarks()
+    val title = ctx.getString(R.string.dialog_title_delete)
+    val message = ctx.getString(R.string.dialog_desc_delete)
+
+    alert(message, title) {
+      positiveButton(ctx.getString(android.R.string.ok)) {
+        app.placemarks.delete(placemark)
+        loadPlacemarks()
+      }
+      negativeButton(ctx.getString(android.R.string.no)) { }
+    }.show()
   }
 }

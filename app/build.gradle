@@ -4,8 +4,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'org.jetbrains.kotlin.android.extensions'
-
 android {
   compileSdkVersion 26
   defaultConfig {
@@ -40,6 +38,10 @@ dependencies {
   implementation 'org.jetbrains.anko:anko-commons:0.10.3'
 
   implementation 'com.google.android.gms:play-services-maps:11.6.2'
+
+  compile 'android.arch.persistence.room:runtime:1.0.0'
+  kapt 'android.arch.persistence.room:compiler:1.0.0'
+
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'com.android.support.test:runner:1.0.1'
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

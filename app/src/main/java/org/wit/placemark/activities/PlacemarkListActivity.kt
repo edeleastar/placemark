@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import kotlinx.android.synthetic.main.activity_placemark_list.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
 import org.wit.placemark.R
@@ -30,10 +32,12 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
   }
 
   private fun loadPlacemarks() {
-    showPlacemarks( app.placemarks.findAll())
+    async(UI) {
+      showPlacemarks(app.placemarks.findAll())
+    }
   }
 
-  fun showPlacemarks (placemarks: List<PlacemarkModel>) {
+  fun showPlacemarks(placemarks: List<PlacemarkModel>) {
     recyclerView.adapter = PlacemarkAdapter(placemarks, this)
     recyclerView.adapter.notifyDataSetChanged()
   }

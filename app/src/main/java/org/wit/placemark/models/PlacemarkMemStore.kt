@@ -13,7 +13,7 @@ class PlacemarkMemStore : PlacemarkStore, AnkoLogger {
 
   val placemarks = ArrayList<PlacemarkModel>()
 
-  override fun findAll(): List<PlacemarkModel> {
+  suspend override fun findAll(): List<PlacemarkModel> {
     return placemarks
   }
 

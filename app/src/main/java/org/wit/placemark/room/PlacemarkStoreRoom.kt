@@ -16,7 +16,7 @@ class PlacemarkStoreRoom(val context: Context) : PlacemarkStore {
     dao = database.placemarkDao()
   }
 
-  override fun findAll(): List<PlacemarkModel> {
+  suspend override fun findAll(): List<PlacemarkModel> {
     return dao.findAll()
   }
 

@@ -2,6 +2,7 @@ package org.wit.placemark.room
 
 import android.arch.persistence.room.Room
 import android.content.Context
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.wit.placemark.models.PlacemarkModel
 import org.wit.placemark.models.PlacemarkStore
 
@@ -16,15 +17,23 @@ class PlacemarkStoreRoom(val context: Context) : PlacemarkStore {
     dao = database.placemarkDao()
   }
 
-  suspend override fun findAll(): List<PlacemarkModel> {
-    return dao.findAll()
+  override suspend fun findAll(): List<PlacemarkModel> {
+    val deferredPlacemarks = bg {
+      dao.findAll()
+    }
+    val placemarks = deferredPlacemarks.await()
+    return placemarks
   }
 
   override fun create(placemark: PlacemarkModel) {
-    dao.create(placemark)
+    bg {
+      dao.create(placemark)
+    }
   }
 
   override fun update(placemark: PlacemarkModel) {
-    dao.update(placemark)
+    bg {
+      dao.update(placemark)
+    }
   }
 }

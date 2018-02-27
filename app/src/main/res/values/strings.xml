@@ -14,4 +14,5 @@
   <string name="title_activity_maps">Map</string>
   <string name="dialog_title_delete">Delete Placemark</string>
   <string name="dialog_desc_delete">Are you sure want to delete this Placemark?</string>
+  <string name="title_activity_placemark_maps">PlacemarkMapsActivity</string>
 </resources>

@@ -16,6 +16,14 @@ class PlacemarkMapsActivity : AppCompatActivity() {
     setContentView(R.layout.activity_placemark_maps)
     setSupportActionBar(toolbarMaps)
     mapView.onCreate(savedInstanceState);
+    mapView.getMapAsync {
+      map = it
+      configureMap()
+    }
+  }
+
+  fun configureMap() {
+    map.uiSettings.setZoomControlsEnabled(true)
   }
 
   override fun onDestroy() {

@@ -34,35 +34,12 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
     if (intent.hasExtra("placemark_edit")) {
       edit = true
-      btnAdd.setText(R.string.save_placemark)
-
       placemark = intent.extras.getParcelable<PlacemarkModel>("placemark_edit")
       placemarkTitle.setText(placemark.title)
       description.setText(placemark.description)
       placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
       if (placemark.image != null) {
         chooseImage.setText(R.string.change_placemark_image)
-      }
-    }
-
-    btnAdd.setOnClickListener() {
-      placemark.title = placemarkTitle.text.toString()
-      placemark.description = description.text.toString()
-
-      if (edit) {
-        app.placemarks.update(placemark.copy())
-        setResult(201)
-        finish()
-      }
-      else {
-        if (placemark.title.isNotEmpty()) {
-          app.placemarks.create(placemark.copy())
-          setResult(200)
-          finish()
-        }
-        else {
-          toast(R.string.enter_placemark_title)
-        }
       }
     }
 
@@ -73,7 +50,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     placemarkLocation.setOnClickListener {
       val location = Location(52.245696, -7.139102, 15f)
       if (placemark.zoom != 0f) {
-        location.lat =  placemark.lat
+        location.lat = placemark.lat
         location.lng = placemark.lng
         location.zoom = placemark.zoom
       }
@@ -86,8 +63,30 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     return super.onCreateOptionsMenu(menu)
   }
 
+  fun save() {
+    placemark.title = placemarkTitle.text.toString()
+    placemark.description = description.text.toString()
+
+    if (edit) {
+      app.placemarks.update(placemark.copy())
+      setResult(201)
+      finish()
+    } else {
+      if (placemark.title.isNotEmpty()) {
+        app.placemarks.create(placemark.copy())
+        setResult(200)
+        finish()
+      } else {
+        toast(R.string.enter_placemark_title)
+      }
+    }
+  }
+
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
     when (item?.itemId) {
+      R.id.item_save -> {
+        save()
+      }
       R.id.item_cancel -> {
         setResult(RESULT_CANCELED)
         finish()

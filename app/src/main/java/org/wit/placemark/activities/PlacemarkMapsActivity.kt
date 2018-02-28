@@ -6,16 +6,20 @@ import com.google.android.gms.maps.GoogleMap
 import org.wit.placemark.R
 import kotlinx.android.synthetic.main.activity_placemark_maps.*
 import kotlinx.android.synthetic.main.content_placemark_maps.*
+import org.wit.placemark.main.MainApp
 
 class PlacemarkMapsActivity : AppCompatActivity() {
 
   lateinit var map: GoogleMap
+  lateinit var app: MainApp
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_placemark_maps)
     setSupportActionBar(toolbarMaps)
     mapView.onCreate(savedInstanceState);
+    app = application as MainApp
+
     mapView.getMapAsync {
       map = it
       configureMap()

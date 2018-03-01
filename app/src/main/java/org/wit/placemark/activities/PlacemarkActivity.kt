@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.*
 import org.wit.placemark.R
@@ -20,9 +24,11 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   var placemark = PlacemarkModel()
   lateinit var app: MainApp
+  lateinit var map: GoogleMap
   var edit = false
   val IMAGE_REQUEST = 1
   val LOCATION_REQUEST = 2
+  val defaultLocation = Location(52.245696, -7.139102, 15f)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -33,6 +39,11 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     toolbarAdd.title = title
     setSupportActionBar(toolbarAdd)
 
+    mapView.getMapAsync {
+      map = it
+      configureMap()
+    }
+
     if (intent.hasExtra("placemark_edit")) {
       edit = true
       placemark = intent.extras.getParcelable<PlacemarkModel>("placemark_edit")
@@ -42,6 +53,10 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       if (placemark.image != null) {
         chooseImage.setText(R.string.change_placemark_image)
       }
+    } else {
+      placemark.lat = defaultLocation.lat
+      placemark.lng = defaultLocation.lng
+      placemark.zoom = defaultLocation.zoom
     }
 
     chooseImage.setOnClickListener {
@@ -49,14 +64,21 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     }
 
     placemarkLocation.setOnClickListener {
-      val location = Location(52.245696, -7.139102, 15f)
       if (placemark.zoom != 0f) {
-        location.lat = placemark.lat
-        location.lng = placemark.lng
-        location.zoom = placemark.zoom
+        defaultLocation.lat = placemark.lat
+        defaultLocation.lng = placemark.lng
+        defaultLocation.zoom = placemark.zoom
       }
-      startActivityForResult(intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
+      startActivityForResult(intentFor<MapsActivity>().putExtra("location", defaultLocation), LOCATION_REQUEST)
     }
+  }
+
+  fun configureMap() {
+    map.uiSettings.setZoomControlsEnabled(true)
+    val loc = LatLng(placemark.lat, placemark.lng)
+    val options = MarkerOptions().title(placemark.title).position(loc)
+    map.addMarker(options)
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, placemark.zoom))
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {

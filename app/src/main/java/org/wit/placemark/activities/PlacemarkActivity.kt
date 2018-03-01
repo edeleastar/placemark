@@ -131,9 +131,11 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       LOCATION_REQUEST -> {
         if (data != null) {
           val location = data.extras.getParcelable<Location>("location")
+          map.clear()
           placemark.lat = location.lat
           placemark.lng = location.lng
           placemark.zoom = location.zoom
+          configureMap()
         }
       }
     }

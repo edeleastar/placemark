@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_placemark_maps.*
 import kotlinx.android.synthetic.main.content_placemark_maps.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import org.wit.placemark.helpers.readImageFromPath
 import org.wit.placemark.main.MainApp
 
 class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
@@ -46,7 +47,13 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
   }
 
   override fun onMarkerClick(marker: Marker): Boolean {
-    currentTitle.text = marker.title
+    async(UI) {
+      val tag = marker.tag as Long
+      val placemark = app.placemarks.findById(tag)
+      currentTitle.text = placemark!!.title
+      currentDescription.text = placemark!!.description
+      imageView.setImageBitmap(readImageFromPath(this@PlacemarkMapsActivity, placemark.image))
+    }
     return false
   }
 

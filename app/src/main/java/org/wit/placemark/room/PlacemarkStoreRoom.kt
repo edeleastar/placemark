@@ -25,6 +25,14 @@ class PlacemarkStoreRoom(val context: Context) : PlacemarkStore {
     return placemarks
   }
 
+  override suspend fun findById(id: Long): PlacemarkModel? {
+    val deferredPlacemark = bg {
+      dao.findById(id)
+    }
+    val placemark = deferredPlacemark.await()
+    return placemark
+  }
+
   override fun create(placemark: PlacemarkModel) {
     bg {
       dao.create(placemark)

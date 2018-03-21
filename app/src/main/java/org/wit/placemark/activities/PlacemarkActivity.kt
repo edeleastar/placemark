@@ -1,11 +1,14 @@
 package org.wit.placemark.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -13,9 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.*
 import org.wit.placemark.R
-import org.wit.placemark.helpers.readImage
-import org.wit.placemark.helpers.readImageFromPath
-import org.wit.placemark.helpers.showImagePicker
+import org.wit.placemark.helpers.*
 import org.wit.placemark.main.MainApp
 import org.wit.placemark.models.Location
 import org.wit.placemark.models.PlacemarkModel
@@ -30,14 +31,19 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
   val LOCATION_REQUEST = 2
   val defaultLocation = Location(52.245696, -7.139102, 15f)
 
+  private lateinit var locationService: FusedLocationProviderClient
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_placemark)
     mapView.onCreate(savedInstanceState);
     app = application as MainApp
+    locationService = LocationServices.getFusedLocationProviderClient(this)
 
     toolbarAdd.title = title
     setSupportActionBar(toolbarAdd)
+
+    btnHere.isEnabled = false
 
     mapView.getMapAsync {
       map = it
@@ -70,6 +76,10 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
         defaultLocation.zoom = placemark.zoom
       }
       startActivityForResult(intentFor<MapsActivity>().putExtra("location", defaultLocation), LOCATION_REQUEST)
+    }
+
+    btnHere.setOnClickListener {
+      setCurrentLocation()
     }
   }
 
@@ -138,6 +148,31 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
           configureMap()
         }
       }
+    }
+  }
+
+  @SuppressLint("MissingPermission")
+  fun setCurrentLocation() {
+    locationService.lastLocation.addOnSuccessListener {
+      defaultLocation.lat = it.latitude
+      defaultLocation.lng = it.longitude
+      placemark.lat = it.latitude
+      placemark.lng = it.longitude
+      configureMap()
+    }
+  }
+
+  override fun onStart() {
+    super.onStart()
+    if (checkLocationPermissions(this)) {
+      btnHere.isEnabled = true
+    }
+  }
+
+  @SuppressLint("MissingPermission")
+  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    if (isPermissionGranted(requestCode, grantResults)) {
+      btnHere.isEnabled = true
     }
   }
 

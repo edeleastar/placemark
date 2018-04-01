@@ -13,7 +13,7 @@ interface PlacemarkDao {
   @Query("SELECT * FROM PlacemarkModel")
   fun findAll(): List<PlacemarkModel>
 
-  @Query("select * from PlacemarkModel where id = :arg0")
+  @Query("select * from PlacemarkModel where id = :id")
   fun findById(id: Long): PlacemarkModel
 
   @Update

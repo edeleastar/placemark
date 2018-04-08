@@ -41,6 +41,8 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       if (locationResult != null && locationResult.locations != null) {
         val l = locationResult.locations.last()
         info ("Location Update ${l.latitude} ${l.longitude}")
+        lat.setText(l.latitude.toString())
+        lng.setText(l.longitude.toString())
       }
     }
   }

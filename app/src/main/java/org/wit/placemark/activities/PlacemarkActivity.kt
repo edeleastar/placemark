@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -30,8 +32,15 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
   val IMAGE_REQUEST = 1
   val LOCATION_REQUEST = 2
   val defaultLocation = Location(52.245696, -7.139102, 15f)
+  val locationRequest = createDefaultLocationRequest()
 
   private lateinit var locationService: FusedLocationProviderClient
+
+  var locationCallback = object : LocationCallback() {
+    override fun onLocationResult(locationResult: LocationResult?) {
+      info("Location Update")
+    }
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -162,6 +171,12 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     }
   }
 
+  @SuppressLint("MissingPermission")
+  private fun startLocationUpdates() {
+    locationService.requestLocationUpdates(locationRequest, locationCallback, null)
+  }
+
+
   override fun onStart() {
     super.onStart()
     if (checkLocationPermissions(this)) {
@@ -194,6 +209,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
   override fun onResume() {
     super.onResume()
     mapView.onResume()
+    startLocationUpdates()
   }
 
   override fun onSaveInstanceState(outState: Bundle?) {

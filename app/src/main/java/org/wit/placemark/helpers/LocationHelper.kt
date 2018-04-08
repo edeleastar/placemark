@@ -1,10 +1,12 @@
 package org.wit.placemark.helpers
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.util.Log
+import com.google.android.gms.location.LocationRequest
 
 val REQUEST_PERMISSIONS_REQUEST_CODE = 34
 
@@ -34,3 +36,12 @@ fun isPermissionGranted(code: Int, grantResults: IntArray): Boolean {
 }
 
 
+@SuppressLint("RestrictedApi")
+fun createDefaultLocationRequest() : LocationRequest {
+  val locationRequest = LocationRequest().apply {
+    interval = 10000
+    fastestInterval = 5000
+    priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+  }
+  return locationRequest
+}

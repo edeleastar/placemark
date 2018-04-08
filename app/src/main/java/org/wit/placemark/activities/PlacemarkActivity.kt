@@ -72,6 +72,8 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       placemark = intent.extras.getParcelable<PlacemarkModel>("placemark_edit")
       placemarkTitle.setText(placemark.title)
       description.setText(placemark.description)
+      lat.setText(placemark.lat.toString())
+      lng.setText(placemark.lng.toString())
       placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
       if (placemark.image != null) {
         chooseImage.setText(R.string.change_placemark_image)
@@ -217,7 +219,9 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
   override fun onResume() {
     super.onResume()
     mapView.onResume()
-    startLocationUpdates()
+    if (!edit) {
+      startLocationUpdates()
+    }
   }
 
   override fun onSaveInstanceState(outState: Bundle?) {

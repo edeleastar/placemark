@@ -38,7 +38,10 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   var locationCallback = object : LocationCallback() {
     override fun onLocationResult(locationResult: LocationResult?) {
-      info("Location Update")
+      if (locationResult != null && locationResult.locations != null) {
+        val l = locationResult.locations.last()
+        info ("Location Update ${l.latitude} ${l.longitude}")
+      }
     }
   }
 

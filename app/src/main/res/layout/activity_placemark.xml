@@ -34,32 +34,83 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <TextView
+      android:id="@+id/latView"
+      android:layout_width="34dp"
+      android:layout_height="45dp"
+      android:layout_marginStart="36dp"
+      android:layout_marginTop="64dp"
+      android:gravity="center"
+      android:text="Lat:"
+      android:textSize="18sp"
+      app:layout_constraintStart_toEndOf="@+id/placemarkTitle"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/lat"
+      android:layout_width="87dp"
+      android:layout_height="46dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="64dp"
+      android:gravity="center"
+      android:text="00.00000"
+      android:textAlignment="center"
+      android:textSize="14sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/latView"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/lngView"
+      android:layout_width="35dp"
+      android:layout_height="45dp"
+      android:layout_marginStart="36dp"
+      android:gravity="center"
+      android:text="Lng:"
+      android:textAlignment="center"
+      android:textSize="18sp"
+      app:layout_constraintBottom_toBottomOf="@+id/description"
+      app:layout_constraintStart_toEndOf="@+id/description" />
+
+    <TextView
+      android:id="@+id/lng"
+      android:layout_width="83dp"
+      android:layout_height="45dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="4dp"
+      android:layout_marginTop="8dp"
+      android:gravity="center"
+      android:text="00.00000"
+      android:textAlignment="center"
+      android:textSize="14sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/lngView"
+      app:layout_constraintTop_toBottomOf="@+id/lat" />
+
     <EditText
       android:id="@+id/placemarkTitle"
-      android:layout_width="365dp"
+      android:layout_width="191dp"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="8dp"
       android:layout_marginStart="8dp"
       android:layout_marginTop="64dp"
       android:ems="10"
       android:hint="@string/hint_placemarkTitle"
       android:inputType="text"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.503"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
       android:id="@+id/description"
-      android:layout_width="365dp"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="8dp"
+      android:layout_width="191dp"
+      android:layout_height="45dp"
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:ems="10"
       android:hint="@string/hint_placemarkDescription"
       android:inputType="textPersonName"
-      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/placemarkTitle" />
 
@@ -100,7 +151,7 @@
     <com.google.android.gms.maps.MapView
       android:id="@+id/mapView"
       android:layout_width="350dp"
-      android:layout_height="149dp"
+      android:layout_height="204dp"
       android:layout_marginBottom="8dp"
       android:layout_marginEnd="8dp"
       android:layout_marginStart="8dp"

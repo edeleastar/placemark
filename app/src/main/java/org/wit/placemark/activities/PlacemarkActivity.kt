@@ -43,6 +43,9 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
         info ("Location Update ${l.latitude} ${l.longitude}")
         lat.setText(l.latitude.toString())
         lng.setText(l.longitude.toString())
+        placemark.lat = l.latitude
+        placemark.lng = l.longitude
+        configureMap()
       }
     }
   }

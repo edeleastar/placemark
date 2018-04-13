@@ -3,7 +3,9 @@
   <string name="hint_placemarkTitle">Placemark Title</string>
   <string name="hint_placemarkDescription">Description </string>
   <string name="button_addPlacemark">Add Placemark</string>
-  <string name="menu_addPlacemark">Add</string>
+  <string name="menu_addPlacemark">Add Placemark</string>
+  <string name="menu_showMap">Show Map</string>
+  <string name="menu_logout">Logout</string>
   <string name="menu_savePlacemark">Save</string>
   <string name="menu_cancelPlacemark">Cancel</string>
   <string name="save_placemark"> Save Placemark </string>

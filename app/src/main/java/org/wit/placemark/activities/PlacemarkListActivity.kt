@@ -55,6 +55,7 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
     when (item?.itemId) {
       R.id.item_add -> startActivityForResult<PlacemarkActivity>(200)
       R.id.item_map -> startActivity<PlacemarkMapsActivity>()
+      R.id.item_logout -> startActivity<LoginActivity>()
     }
     return super.onOptionsItemSelected(item)
   }

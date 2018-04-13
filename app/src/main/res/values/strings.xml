@@ -16,4 +16,8 @@
   <string name="dialog_title_delete">Delete Placemark</string>
   <string name="dialog_desc_delete">Are you sure want to delete this Placemark?</string>
   <string name="title_activity_placemark_maps">Map of All Placemarks </string>
+  <string name="sign_up">Sign Up</string>
+  <string name="sign_in">Sign In</string>
+  <string name="hint_password">password</string>
+  <string name="hint_email">email</string>
 </resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "428338485028",
+    "firebase_url": "https://placemark-5804d.firebaseio.com",
+    "project_id": "placemark-5804d",
+    "storage_bucket": "placemark-5804d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428338485028:android:634c4d908a4ce143",
+        "android_client_info": {
+          "package_name": "org.wit.placemark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428338485028-ntqb1k4hapjeficnmgc9bl3l9ot6ok3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.wit.placemark",
+            "certificate_hash": "bcaa865ad78c52ea1cf224fb802ca6731db4da8b"
+          }
+        },
+        {
+          "client_id": "428338485028-dmo9d4ln6spnfdhua5cup7qnb1e4kk8s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4vBCNtscMx1sgc3M6sl1oTeWhTqfKxbI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428338485028-dmo9d4ln6spnfdhua5cup7qnb1e4kk8s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

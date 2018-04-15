@@ -39,7 +39,21 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
     }
 
     signInBtn.setOnClickListener {
-      startActivity(intentFor<PlacemarkListActivity>())
+      val email = field_email.text.toString()
+      val password = field_password.text.toString()
+      if (email == "" || password == "") {
+        toast("Please provide email + password")
+      }
+      else {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+          if (task.isSuccessful) {
+            startActivity(intentFor<PlacemarkListActivity>())
+          }
+          else {
+            toast("Sign In Failed")
+          }
+        }
+      }
     }
   }
 }

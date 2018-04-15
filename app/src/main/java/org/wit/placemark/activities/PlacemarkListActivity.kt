@@ -23,10 +23,12 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
     setContentView(R.layout.activity_placemark_list)
     app = application as MainApp
 
-    toolbarMain.title = title
+    val user = FirebaseAuth.getInstance().currentUser
+    var appTitle = "${title.toString()}: ${user!!.email}"
+    toolbarMain.title = appTitle
     setSupportActionBar(toolbarMain)
 
-    val layoutManager = LinearLayoutManager(this)
+    var layoutManager = LinearLayoutManager(this)
     recyclerView.layoutManager = layoutManager
     loadPlacemarks()
   }

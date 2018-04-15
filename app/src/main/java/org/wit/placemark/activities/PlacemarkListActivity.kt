@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_placemark_list.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -55,7 +56,10 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
     when (item?.itemId) {
       R.id.item_add -> startActivityForResult<PlacemarkActivity>(200)
       R.id.item_map -> startActivity<PlacemarkMapsActivity>()
-      R.id.item_logout -> startActivity<LoginActivity>()
+      R.id.item_logout -> {
+        FirebaseAuth.getInstance().signOut()
+        startActivity<LoginActivity>()
+      }
     }
     return super.onOptionsItemSelected(item)
   }

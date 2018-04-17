@@ -12,8 +12,10 @@ import kotlinx.android.synthetic.main.activity_placemark_maps.*
 import kotlinx.android.synthetic.main.content_placemark_maps.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import org.wit.placemark.firebase.PlacemarkFireStore
 import org.wit.placemark.helpers.readImageFromPath
 import org.wit.placemark.main.MainApp
+import org.wit.placemark.models.PlacemarkModel
 
 class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
@@ -40,7 +42,7 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
       app.placemarks.findAll().forEach {
         val loc = LatLng(it.lat, it.lng)
         val options = MarkerOptions().title(it.title).position(loc)
-        map.addMarker(options).tag = it.id
+        map.addMarker(options).tag = it
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom))
       }
     }
@@ -48,8 +50,7 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
 
   override fun onMarkerClick(marker: Marker): Boolean {
     async(UI) {
-      val tag = marker.tag as Long
-      val placemark = app.placemarks.findById(tag)
+      val placemark = marker.tag as PlacemarkModel
       currentTitle.text = placemark!!.title
       currentDescription.text = placemark!!.description
       imageView.setImageBitmap(readImageFromPath(this@PlacemarkMapsActivity, placemark.image))

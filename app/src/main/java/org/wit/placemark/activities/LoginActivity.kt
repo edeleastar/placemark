@@ -2,6 +2,7 @@ package org.wit.placemark.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.AnkoLogger
@@ -20,6 +21,7 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
+    progressBar.visibility = View.GONE
     auth = FirebaseAuth.getInstance()
 
     var app = application as MainApp
@@ -28,6 +30,7 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
     }
 
     signUpBtn.setOnClickListener {
+      progressBar.visibility = View.VISIBLE
       val email = field_email.text.toString()
       val password = field_password.text.toString()
       if (email == "" || password == "") {
@@ -35,6 +38,7 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
       }
       else {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+          progressBar.visibility = View.GONE
           if (task.isSuccessful) {
             info("Login success")
             startActivity(intentFor<PlacemarkListActivity>())
@@ -47,6 +51,7 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
     }
 
     signInBtn.setOnClickListener {
+      progressBar.visibility = View.VISIBLE
       val email = field_email.text.toString()
       val password = field_password.text.toString()
       if (email == "" || password == "") {
@@ -54,6 +59,7 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
       }
       else {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+          progressBar.visibility = View.GONE
           if (task.isSuccessful) {
             if (fireStore != null) {
               fireStore!!.fetchPlacemarks {

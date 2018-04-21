@@ -59,6 +59,7 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
       R.id.item_add -> startActivityForResult<PlacemarkActivity>(200)
       R.id.item_map -> startActivity<PlacemarkMapsActivity>()
       R.id.item_logout -> {
+        app.placemarks.clear()
         FirebaseAuth.getInstance().signOut()
         startActivity<LoginActivity>()
       }

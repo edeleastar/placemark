@@ -50,4 +50,7 @@ class PlacemarkStoreRoom(val context: Context) : PlacemarkStore {
       dao.deletePlacemark(placemark)
     }
   }
+
+  override fun clear() {
+  }
 }

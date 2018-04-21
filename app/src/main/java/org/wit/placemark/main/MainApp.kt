@@ -16,7 +16,7 @@ class MainApp : Application(), AnkoLogger {
     super.onCreate()
    // placemarks = PlacemarkMemStore()
     //placemarks = PlacemarkStoreRoom (applicationContext)
-    placemarks = PlacemarkFireStore()
+    placemarks = PlacemarkFireStore(this)
     info("Placemark started")
   }
 }

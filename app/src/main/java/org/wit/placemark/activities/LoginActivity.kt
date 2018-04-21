@@ -9,15 +9,23 @@ import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.wit.placemark.R
+import org.wit.placemark.firebase.PlacemarkFireStore
+import org.wit.placemark.main.MainApp
 
 class LoginActivity : AppCompatActivity(), AnkoLogger {
 
   lateinit var auth: FirebaseAuth
+  var fireStore: PlacemarkFireStore? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
     auth = FirebaseAuth.getInstance()
+
+    var app = application as MainApp
+    if (app.placemarks is PlacemarkFireStore) {
+      fireStore = app.placemarks as PlacemarkFireStore
+    }
 
     signUpBtn.setOnClickListener {
       val email = field_email.text.toString()
@@ -47,10 +55,14 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
       else {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
           if (task.isSuccessful) {
-            startActivity(intentFor<PlacemarkListActivity>())
-          }
-          else {
-            toast("Sign In Failed")
+            if (fireStore != null) {
+              fireStore!!.fetchPlacemarks {
+                startActivity(intentFor<PlacemarkListActivity>())
+              }
+            }
+            else {
+              toast("Sign In Failed")
+            }
           }
         }
       }

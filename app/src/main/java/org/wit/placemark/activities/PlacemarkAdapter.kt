@@ -17,7 +17,7 @@ interface PlacemarkListener {
 class PlacemarkAdapter constructor(private var placemarks: List<PlacemarkModel>,
                                    private val listener: PlacemarkListener) : RecyclerView.Adapter<PlacemarkAdapter.MainHolder>() {
 
-  override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MainHolder {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
     return MainHolder(LayoutInflater.from(parent?.context).inflate(R.layout.card_placemark, parent, false))
   }
 

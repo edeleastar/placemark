@@ -2,6 +2,7 @@ package org.wit.placemark.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -53,7 +54,8 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
       val placemark = marker.tag as PlacemarkModel
       currentTitle.text = placemark!!.title
       currentDescription.text = placemark!!.description
-      imageView.setImageBitmap(readImageFromPath(this@PlacemarkMapsActivity, placemark.image))
+      Glide.with(this@PlacemarkMapsActivity).load(placemark.image).into(imageView);
+
     }
     return false
   }

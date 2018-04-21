@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -74,7 +75,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       description.setText(placemark.description)
       lat.setText(placemark.lat.toString())
       lng.setText(placemark.lng.toString())
-      placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
+      Glide.with(this).load(placemark.image).into(placemarkImage);
       if (placemark.image != null) {
         chooseImage.setText(R.string.change_placemark_image)
       }

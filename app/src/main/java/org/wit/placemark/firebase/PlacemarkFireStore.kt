@@ -1,28 +1,17 @@
 package org.wit.placemark.firebase
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.toast
 import org.wit.placemark.models.PlacemarkModel
 import org.wit.placemark.models.PlacemarkStore
 
-class PlacemarkFireStore : PlacemarkStore, AnkoLogger {
+class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
 
   val placemarks = ArrayList<PlacemarkModel>()
-
-  init {
-    firebaseListenerInit()
-  }
-
-  fun getUserId(): String {
-    return FirebaseAuth.getInstance().currentUser!!.uid
-  }
-
-  fun getDb(): DatabaseReference {
-    return FirebaseDatabase.getInstance().reference
-  }
+  lateinit var userId: String
+  lateinit var db: DatabaseReference
 
   suspend override fun findAll(): List<PlacemarkModel> {
     return placemarks
@@ -34,43 +23,47 @@ class PlacemarkFireStore : PlacemarkStore, AnkoLogger {
   }
 
   override fun create(placemark: PlacemarkModel) {
-    val key = getDb().child("users").child(getUserId()).child("placemarks").push().key
+    val key = db.child("users").child(userId).child("placemarks").push().key
     placemark.fbId = key
-    getDb().child("users").child(getUserId()).child("placemarks").child(key).setValue(placemark)
+    placemarks.add(placemark)
+    db.child("users").child(userId).child("placemarks").child(key).setValue(placemark)
   }
 
   override fun update(placemark: PlacemarkModel) {
-    getDb().child("users").child(getUserId()).child("placemarks").child(placemark.fbId).setValue(placemark)
+    var foundPlacemark: PlacemarkModel? = placemarks.find { p -> p.fbId == placemark.fbId }
+    if (foundPlacemark != null) {
+      foundPlacemark.title = placemark.title
+      foundPlacemark.description = placemark.description
+      foundPlacemark.image = placemark.image
+      foundPlacemark.lat = placemark.lat
+      foundPlacemark.lng = placemark.lng
+      foundPlacemark.zoom = placemark.zoom
+    }
+
+    db.child("users").child(userId).child("placemarks").child(placemark.fbId).setValue(placemark)
   }
 
   override fun delete(placemark: PlacemarkModel) {
-    getDb().child("users").child(getUserId()).child("placemarks").child(placemark.fbId).removeValue()
+    db.child("users").child(userId).child("placemarks").child(placemark.fbId).removeValue()
     placemarks.remove(placemark)
   }
 
-  private fun firebaseListenerInit() {
-
-    val childEventListener = object : ChildEventListener {
-
-      override fun onChildAdded(dataSnapshot: DataSnapshot?, previousChildName: String?) {
-        val placemark = dataSnapshot!!.getValue(PlacemarkModel::class.java)
-        placemarks.add (placemark!!)
-      }
-
-      override fun onChildChanged(dataSnapshot: DataSnapshot?, previousChildName: String?) {
-      }
-
-      override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
-      }
-
-      override fun onChildMoved(dataSnapshot: DataSnapshot?, previousChildName: String?) {
-      }
-
-      override fun onCancelled(databaseError: DatabaseError?) {
-      }
-
-    }
-    getDb().child("users").child(getUserId()).child("placemarks").addChildEventListener(childEventListener)
+  override fun clear() {
+    placemarks.clear()
   }
 
+  fun fetchPlacemarks(placemarksReady: () -> Unit) {
+    val valueEventListener = object : ValueEventListener {
+      override fun onCancelled(dataSnapshot: DatabaseError?) {
+      }
+      override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        dataSnapshot!!.children.mapNotNullTo(placemarks) { it.getValue<PlacemarkModel>(PlacemarkModel::class.java) }
+        placemarksReady()
+      }
+    }
+    userId = FirebaseAuth.getInstance().currentUser!!.uid
+    db = FirebaseDatabase.getInstance().reference
+    placemarks.clear()
+    db.child("users").child(userId).child("placemarks").addListenerForSingleValueEvent(valueEventListener)
+  }
 }

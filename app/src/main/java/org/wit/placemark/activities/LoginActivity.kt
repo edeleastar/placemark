@@ -67,8 +67,11 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
               }
             }
             else {
-              toast("Sign In Failed")
+              startActivity(intentFor<PlacemarkListActivity>())
             }
+          }
+          else {
+            toast("Sign In Failed")
           }
         }
       }

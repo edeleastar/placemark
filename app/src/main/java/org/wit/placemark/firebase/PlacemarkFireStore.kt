@@ -2,15 +2,12 @@ package org.wit.placemark.firebase
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.StorageReference
 import org.jetbrains.anko.AnkoLogger
 import org.wit.placemark.helpers.readImageFromPath
-import org.wit.placemark.main.MainApp
 import org.wit.placemark.models.PlacemarkModel
 import org.wit.placemark.models.PlacemarkStore
 import java.io.ByteArrayOutputStream
@@ -19,8 +16,9 @@ import java.io.File
 class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
 
   val placemarks = ArrayList<PlacemarkModel>()
-  lateinit var userId : String
-  lateinit var db : DatabaseReference
+  lateinit var userId: String
+  lateinit var db: DatabaseReference
+  lateinit var st : StorageReference
 
   suspend override fun findAll(): List<PlacemarkModel> {
     return placemarks
@@ -69,39 +67,34 @@ class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
     if (placemark.image != "") {
       val fileName = File(placemark.image)
       val imageName = fileName.getName()
+
       val bitmap = readImageFromPath(context, placemark.image)
-
-      val storage = FirebaseStorage.getInstance()
-      val storageRef = storage.getReference();
-      var imageRef = storageRef.child(userId + '/' + imageName)
-
+      var imageRef = st.child(userId + '/' + imageName)
       val baos = ByteArrayOutputStream()
       bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, baos)
       val data = baos.toByteArray()
       val uploadTask = imageRef.putBytes(data)
-      uploadTask.addOnFailureListener(OnFailureListener {
-        println(it)
-      }).addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+      uploadTask.addOnFailureListener {
+        println (it.message)
+      }.addOnSuccessListener { taskSnapshot ->
         placemark.image = taskSnapshot.downloadUrl.toString()
         db.child("users").child(userId).child("placemarks").child(placemark.fbId).setValue(placemark)
-      })
+      }
     }
   }
 
   fun fetchPlacemarks(placemarksReady: () -> Unit) {
     val valueEventListener = object : ValueEventListener {
       override fun onCancelled(dataSnapshot: DatabaseError?) {
-
       }
       override fun onDataChange(dataSnapshot: DataSnapshot?) {
         dataSnapshot!!.children.mapNotNullTo(placemarks) { it.getValue<PlacemarkModel>(PlacemarkModel::class.java) }
         placemarksReady()
       }
     }
-
     userId = FirebaseAuth.getInstance().currentUser!!.uid
     db = FirebaseDatabase.getInstance().reference
-
+    st = FirebaseStorage.getInstance().reference
     placemarks.clear()
     db.child("users").child(userId).child("placemarks").addListenerForSingleValueEvent(valueEventListener)
   }

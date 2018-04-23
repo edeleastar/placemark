@@ -72,7 +72,7 @@ class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
       val bitmap = readImageFromPath(context, placemark.image)
 
       val storage = FirebaseStorage.getInstance()
-      val storageRef = storage.getReferenceFromUrl("gs://placemark-5804d.appspot.com")
+      val storageRef = storage.getReference();
       var imageRef = storageRef.child(userId + '/' + imageName)
 
       val baos = ByteArrayOutputStream()
